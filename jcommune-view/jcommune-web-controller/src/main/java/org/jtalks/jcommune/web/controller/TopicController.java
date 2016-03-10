@@ -32,6 +32,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.core.annotation.Order;
 import org.springframework.data.domain.Page;
 import org.springframework.retry.RetryCallback;
 import org.springframework.retry.RetryContext;
@@ -295,22 +296,6 @@ public class TopicController {
                 .addObject(BREADCRUMB_LIST, breadcrumbBuilder.getForumBreadcrumb(topic));
     }
 
-    /**
-     * Displays to user a list of messages from the topic with pagination
-     *
-     * @param topicId the id of selected Topic
-     * @param page    page
-     * @return {@code ModelAndView}
-     * @throws NotFoundException when topic or branch not found
-     */
-    @RequestMapping(value = "/topics/{topicType:[A-Za-z]+}/{topicId}", method = RequestMethod.GET)
-    public String showTopicPage(WebRequest request,@PathVariable() String topicType, @PathVariable(TOPIC_ID) Long topicId,
-                                      @RequestParam(value = "page", defaultValue = "1", required = false) String page)
-            throws NotFoundException {
-        Topic topic = pluginTopicService.get(topicId, topicType);
-
-        return "redirect:/topics/"+topicId;
-    }
 
     /**
      * Shows edit topic page with form, populated with fields from topic.
